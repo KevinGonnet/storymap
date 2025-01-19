@@ -8,7 +8,7 @@ import folium
 from streamlit_folium import st_folium
 
 # 1) Config
-os.environ["GOOGLE_API_KEY"] = "TA_CLE"
+os.environ["GOOGLE_API_KEY"] = "AIzaSyDMORx0IGLazJZA17dH3_hRQmGeThP7Kkg"
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 model = genai.GenerativeModel("gemini-1.5-flash")
 
