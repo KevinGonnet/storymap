@@ -20,7 +20,7 @@ if uploaded_file:
     st.write(df.head())
 
     # 3) Géocodage
-    geolocator = Nominatim(user_agent="story_mapp")
+    geolocator = Nominatim(user_agent="story_mapp", timeout=10)
     latitudes = []
     longitudes = []
     stories = []
