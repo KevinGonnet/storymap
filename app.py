@@ -15,11 +15,12 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 # 2) Lecture CSV
 st.title("Story Mapp")
 uploaded_file = st.file_uploader("Charge ton CSV", type=["csv"])
-if uploaded_file:
+if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.write(df.head())
 
     # 3) Géocodage
+if st.button("Générer la carte"):
     geolocator = Nominatim(user_agent="story_mapp", timeout=10)
     latitudes = []
     longitudes = []
