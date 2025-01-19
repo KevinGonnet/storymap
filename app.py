@@ -15,16 +15,21 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 # 2) Lecture CSV
 st.title("Story Mapp")
 uploaded_file = st.file_uploader("Charge ton CSV", type=["csv"])
+
+# On crée une clé dans session_state pour stocker la carte
+if "map_obj" not in st.session_state:
+    st.session_state.map_obj = None
+    
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.write(df.head())
 
     # 3) Géocodage
-if st.button("Générer la carte"):
-    geolocator = Nominatim(user_agent="story_mapp", timeout=10)
-    latitudes = []
-    longitudes = []
-    stories = []
+    if st.button("Générer la carte"):
+        geolocator = Nominatim(user_agent="story_mapp", timeout=10)
+        latitudes = []
+        longitudes = []
+        stories = []
 
     for i, row in df.iterrows():
         lieu = f"{row['ville']}, {row['pays']}"
@@ -58,5 +63,9 @@ if st.button("Générer la carte"):
                 tooltip=f"{row['prenom']} {row['nom']} ({row['annee_naissance']})"
             ).add_to(m)
     
-    st_data = st_folium(m, width=700, height=500)
+# 3) Stocker la carte dans la session
+        st.session_state.map_obj = m
 
+# Une fois la carte générée et stockée, on l’affiche si elle existe
+if st.session_state.map_obj:
+    st_data = st_folium(st.session_state.map_obj, width=700, height=500)
